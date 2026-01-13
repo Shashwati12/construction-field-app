@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { registerSchema } from "./auth.schema";
 import { createUser, findUserByPhone, verifyPassword, generateToken } from "./auth.service";
 export async function registerUser(req: Request, res: Response){
@@ -13,12 +13,7 @@ export async function registerUser(req: Request, res: Response){
         const user = await createUser(name, phone, password);
         return res.status(201).json({
             message: "User registered successfully",
-            user: {
-                id:user.id,
-                name: user.name,
-                phone: user.phone,
-                role: user.role,
-            },
+            user,
         });
     }
     catch(error:any){
@@ -67,12 +62,7 @@ export async function loginUser(req: Request, res: Response) {
 
     return res.status(200).json({
       message: "Login successful",
-      user: {
-        id: user.id,
-        name: user.name,
-        phone: user.phone,
-        role: user.role,
-      },
+      user,
     });
   } catch (error) {
     console.error("LOGIN ERROR", error);

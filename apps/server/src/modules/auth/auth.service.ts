@@ -9,7 +9,8 @@ export async function createUser(name:string, phone:string, password:string){
     if(existingUser){
         throw new Error("Phone already exists");
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const saltRounds = Number(process.env.BCRYPT_SALT_ROUNDS || 10);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     const user = await prisma.user.create({
         data:{
             name,

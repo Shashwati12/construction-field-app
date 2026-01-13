@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from "express"
+import type { Role } from "@prisma/client"
+import type { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 
 export function authenticate(
@@ -9,7 +10,7 @@ export function authenticate(
   const token = req.cookies?.token
 
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" })
+    return res.status(400).json({ message: "Bad Request" })
   }
 
   try {
@@ -18,7 +19,7 @@ export function authenticate(
       process.env.JWT_SECRET as string
     ) as {
       userId: string
-      role: string
+      role: Role
     }
 
     req.user = {

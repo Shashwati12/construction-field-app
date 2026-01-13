@@ -11,14 +11,14 @@ export function createApp() {
     credentials: true,
   }));
 
-  app.use(cookieParser());   // ✅ MOVE THIS UP
+  app.use(cookieParser());  
   app.use(express.json());
 
   app.get("/test", (_req, res) => {
     res.json({ status: "ok" });
   });
 
-  app.use("/auth", authRoutes); // ✅ ROUTES AFTER cookieParser
+  app.use("/auth", authRoutes);
 
   return app;
 }
