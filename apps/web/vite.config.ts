@@ -22,6 +22,7 @@ const config = defineConfig({
         target: "http://localhost:4000",
         changeOrigin: true,
       },
+      "/projects": "http://localhost:4000",
     },
   },
 })
