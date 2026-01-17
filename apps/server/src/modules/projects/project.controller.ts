@@ -1,6 +1,6 @@
 import type {Request, Response} from "express";
 import { createProjectSchema } from "./project.schema";
-import {createProject, getAccessibleProjects, getOwnerProjects} from "./project.service"
+import {createProject, getAccessibleProjects, getOwnerProjects, getProjectByIdForUser} from "./project.service"
 import { string } from "zod";
 
 export async function createProjectController(req: Request, res:Response){
@@ -64,5 +64,21 @@ export async function listProjects(req:Request, res:Response){
         return res.status(500).json({
             message: "Internal server erro"
         })
+    }
+}
+
+export async function getProjectDetails(req:Request, res:Response){
+    try{
+        const {projectId} = req.params
+        const userId=req.user?.userId
+        const result=await getProjectByIdForUser(projectId as string, userId as string)
+        if(!result){
+            return res.status(403).json({message:"Access denied"})
+        }
+        return res.status(200).json(result)
+    }
+    catch(error){
+        console.error("GET PROJECT DETAILS ERROR", error)
+        return res.status(500).json({message:"Internal server error"})
     }
 }

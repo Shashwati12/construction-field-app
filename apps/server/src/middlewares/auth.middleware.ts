@@ -31,4 +31,5 @@ export function authenticate(
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized" })
   }
+  
 }

@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { authenticate } from "../../middlewares/auth.middleware";
-import { createProjectController, listProjects } from "./project.controller";
+import { createProjectController, getProjectDetails, listProjects } from "./project.controller";
+import { authorize } from "../../middlewares/authorize.middleware";
+import { Role } from "@prisma/client";
 
 const router = Router()
 
@@ -13,5 +15,6 @@ router.post(
     },
     createProjectController
 )
-router.get("/", authenticate, listProjects)
+router.get("/", authenticate, authorize([Role.OWNER, Role.MANAGER, Role.ACCOUNTANT]), listProjects)
+router.get("/:projectId", authenticate, getProjectDetails)
 export default router

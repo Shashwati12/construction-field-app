@@ -84,3 +84,28 @@ export async function getAccessibleProjects(userId: string){
     return memberships.map(m => m.project)
 }
 
+export async function getProjectByIdForUser(projectId:string, userId:string){
+    const membership = await prisma.projectMember.findFirst({
+        where:{
+            projectId, userId
+        },
+        include:{
+            project:{
+                select:{
+                    id:true,
+                    name:true,
+                    location:true,
+                    status:true,
+                    createdAt:true,
+                },
+            },
+        },
+    })
+    if(!membership){
+        return null
+    }
+    return{
+        project:membership.project,
+        role:membership.projectRole,
+    }
+}
