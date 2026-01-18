@@ -3,16 +3,13 @@ import { authenticate } from "../../middlewares/auth.middleware";
 import { createProjectController, getProjectDetails, listProjects } from "./project.controller";
 import { authorize } from "../../middlewares/authorize.middleware";
 import { Role } from "@prisma/client";
+import { validate } from "../../middlewares/validate";
+import { createProjectSchema } from "./project.schema";
 
 const router = Router()
 
 router.post(
-    "/",authenticate,(req, res, next) => {
-        if(req.user?.role !== "OWNER"){
-            return res.status(403).json({message: "Forbidden"})
-        }
-        next()
-    },
+    "/",authenticate, authorize([Role.OWNER]), validate(createProjectSchema),
     createProjectController
 )
 router.get("/", authenticate, authorize([Role.OWNER, Role.MANAGER, Role.ACCOUNTANT]), listProjects)

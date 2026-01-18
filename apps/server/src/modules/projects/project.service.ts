@@ -34,32 +34,6 @@ export async function createProject(input: createProjectInput){
     return result
 }
 
-export async function getOwnerProjects(userId: string){
-    const memberships = await prisma.projectMember.findMany({
-        where:{
-            userId,
-            projectRole: Role.OWNER,
-        },
-        include: {
-            project: {
-                select: {
-                    id: true,
-                    name: true,
-                    location: true,
-                    status: true,
-                    createdAt: true,
-                },
-            },
-        },
-        orderBy: {
-            project:{
-                createdAt: "desc",
-            },
-        },
-    })
-    return memberships.map(m => m.project)
-}
-
 export async function getAccessibleProjects(userId: string){
     const memberships=await prisma.projectMember.findMany({
         where:{
