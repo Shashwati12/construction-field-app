@@ -20,9 +20,10 @@ function createTestApp(){
 }
 
 describe("GET /projects/:projectId", () =>{
+    const app=createTestApp()
     it("returns 403 when user is not a project member", async ()=>{
         ;(projectService.getProjectByIdForUser as jest.Mock).mockResolvedValue(null)
-        const app=createTestApp()
+
         const res=await request(app).get("/projects/project-123")
         expect(res.status).toBe(403)
         expect(res.body).toEqual({message:"Access denied"})
@@ -40,7 +41,6 @@ describe("GET /projects/:projectId", () =>{
             role:"OWNER",
         }
         ;(projectService.getProjectByIdForUser as jest.Mock).mockResolvedValue(mockResult)
-        const app=createTestApp()
         const res=await request(app).get("/projects/project-123")
         expect(res.status).toBe(200)
         expect(res.body).toEqual(mockResult)

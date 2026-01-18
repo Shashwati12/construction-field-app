@@ -1,6 +1,5 @@
 import { getProjectByIdForUser } from "./project.service";
 import { prisma } from "../../config/prisma";
-import { describe, it } from "node:test";
 
 jest.mock("../../config/prisma", ()=>({
     prisma:{

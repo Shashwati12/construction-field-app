@@ -65,7 +65,7 @@ describe("GET /projects", ()=>{
         expect(res.status).toBe(200)
     })
 
-    it("return 200 when role = ACCOUNTANT", async()=>{
+    it("returns 200 when role = ACCOUNTANT", async()=>{
         const app=createTestApp()
         ;(jwt.verify as jest.Mock).mockReturnValue({
             userId:"user-124",

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
 import { authenticate } from "./auth.middleware";
 import type { Request, Response, NextFunction } from "express";
-import { beforeEach } from "node:test";
+
 
 jest.mock("jsonwebtoken", () => {
   return {
@@ -51,7 +51,7 @@ describe("authenticate middleware", ()=>{
         expect(next).not.toHaveBeenCalled()
     })
 
-    it("sets req.user and calls next when token is invalid", ()=>{
+    it("sets req.user and calls next when token is valid", ()=>{
         const {req,res,next} = createMocks()
         req.cookies={
             token: "valid.token",

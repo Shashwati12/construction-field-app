@@ -16,5 +16,5 @@ router.post(
     createProjectController
 )
 router.get("/", authenticate, authorize([Role.OWNER, Role.MANAGER, Role.ACCOUNTANT]), listProjects)
-router.get("/:projectId", authenticate, getProjectDetails)
+router.get("/:projectId", authenticate,authorize([Role.OWNER, Role.MANAGER, Role.ACCOUNTANT]), getProjectDetails)
 export default router
