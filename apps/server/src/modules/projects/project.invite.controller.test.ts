@@ -24,7 +24,6 @@ function mockReqRes(overrides: Partial<any>={}){
 }
 
 describe("Project Invitation", ()=>{
-    const app = mockReqRes()
     
     it("returns 401 when user is not authenticated", async()=>{
         const {req,res} = mockReqRes({user:null})
